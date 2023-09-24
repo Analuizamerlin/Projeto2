@@ -36,8 +36,8 @@ class Pessoa:
         print(f'{self.nome} tem {self.idade} anos, {self.altura}m de altura, pesa {self.peso}kg e nasceu em {self.nascimento}.\n')
 
 while True:
-    nome = input('Nome: ')
-    if not re.match(r'^[a-zA-Z\s]+$', nome):
+    nome = input('Nome completo: ')
+    if not re.match(r'^[a-zA-Zà-úÀ-Ú\s]+$', nome):
         print('Entrada inválida. Tente novamente!')
     else: 
         break
