@@ -33,42 +33,40 @@ class Pessoa:
             return 'Faixa de peso: Obesidade Mórbida (Grau III).'
 
     def apresentar(self):
-        print(f'{self.nome} tem {self.idade} anos, {self.altura}m de altura e pesa {self.peso}kg!\n')
+        print(f'{self.nome} tem {self.idade} anos, {self.altura}m de altura, pesa {self.peso}kg e nasceu em {self.nascimento}.\n')
 
-nome = input('Nome: ')
 while True:
+    nome = input('Nome: ')
     if not re.match(r'^[a-zA-Z\s]+$', nome):
         print('Entrada inválida. Tente novamente!')
-        nome = input('Nome: ')
     else: 
         break
-    
-idade = input('Idade: ')
+
 while True:
+    idade = input('Idade: ')
     if not re.match(r'^[0-9]+$', idade):
         print('Entrada inválida. Tente novamente!')
-        idade = input('Idade: ')
     else: 
         break
-altura = input('Altura: ')
+
 while True:
+    altura = input('Altura: ')
     if not re.match(r'^[1-9]\.[0-9]+$|^0\.[1-9]+$', altura):
         print('Entrada inválida. Tente novamente!')
-        altura = input('Altura: ')
     else: 
         break
-peso = input('Peso: ')
+
 while True:
+    peso = input('Peso: ')
     if not re.match(r'^[1-9][0-9]*[0-9]*\.[0-9]', peso)or float(peso)<=0:
         print('Entrada inválida. Tente novamente!')
-        peso = input('Peso: ')
     else: 
         break
-nascimento = input('Data de Nascimento(dd/mm/aaaa): ')
+
 while True:
+    nascimento = input('Data de Nascimento(dd/mm/aaaa): ')
     if not re.match(r'^(0[0-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\d{4}+$', nascimento):
         print('Entrada inválida. Tente novamente!')
-        nascimento = input('Data de Nascimento(dd/mm/aaaa): ')
     else: 
         break
 
