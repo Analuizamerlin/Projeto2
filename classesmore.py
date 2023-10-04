@@ -1,5 +1,7 @@
 import re
+import csv
 
+cadastro = []
 class Pessoa:
     def __init__(self,nome, idade, altura, peso, nascimento):
         self.nome = nome
@@ -35,44 +37,91 @@ class Pessoa:
     def apresentar(self):
         print(f'{self.nome} tem {self.idade} anos, {self.altura}m de altura, pesa {self.peso}kg e nasceu em {self.nascimento}.\n')
 
-while True:
-    nome = input('Nome completo: ')
-    if not re.match(r'^[a-zA-Zà-úÀ-Ú\s]+$', nome):
-        print('Entrada inválida. Tente novamente!')
-    else: 
-        break
+class menu:
+    def acionar():
+        print('-'*35)
+        print(' '*15,'MENU')
+        print('-'*35)
+        print('1 - Mostrar a pessoa cadastrada\n2 - Editar a pessoa cadastrada\n3 - Sair do programa')
+        print('-'*35)
 
 while True:
-    idade = input('Idade: ')
-    if not re.match(r'^[0-9]+$', idade):
-        print('Entrada inválida. Tente novamente!')
-    else: 
-        break
+    try:
 
-while True:
-    altura = input('Altura: ')
-    if not re.match(r'^[1-9]\.[0-9]+$|^0\.[1-9]+$', altura):
-        print('Entrada inválida. Tente novamente!')
-    else: 
-        break
+        menu.acionar()
+        entrada = int((input(' ')))  
 
-while True:
-    peso = input('Peso: ')
-    if not re.match(r'^[1-9][0-9]*[0-9]*\.[0-9]', peso)or float(peso)<=0:
-        print('Entrada inválida. Tente novamente!')
-    else: 
-        break
+        if entrada == 1:
+            with open('Cadastro.csv','r', encoding = 'utf-8', newline='') as arquivo_ler:
+                arquivo_csv = csv.reader(arquivo_ler)
 
-while True:
-    nascimento = input('Data de Nascimento(dd/mm/aaaa): ')
-    if not re.match(r'^(0[0-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\d{4}+$', nascimento):
-        print('Entrada inválida. Tente novamente!')
-    else: 
-        break
+                for line in arquivo_csv:
+                    if line == []:
+                        print(print('NÃO HÁ PESSOA CADASTRADA'))
+                    else:
+                        print(f'\n{line}\n')            
 
-pessoa1 = Pessoa(nome, idade, altura, peso, nascimento)
+        elif entrada == 2:                       
+            while True:
+                nome = input('Nome completo: ')
+                if not re.match(r'^[a-zA-Zà-úÀ-Ú\s]+$', nome):
+                    print('Entrada inválida. Tente novamente!')
+                
+                else: 
+                    cadastro.append(nome)
+                    break
 
-print(f'\n{pessoa1.eh_maior()}')
-print(pessoa1.imc())
-print(pessoa1.imc_longo())
-pessoa1.apresentar()
+            while True:
+                idade = input('Idade: ')
+                if not re.match(r'^[0-9]+$', idade):
+                    print('Entrada inválida. Tente novamente!')
+                else: 
+                    cadastro.append(idade)
+                    break
+
+            while True:
+                altura = input('Altura: ')
+                if not re.match(r'^[1-9]\.[0-9]+$|^0\.[1-9]+$', altura):
+                    print('Entrada inválida. Tente novamente!')
+                else:
+                    cadastro.append(altura) 
+                    break
+
+            while True:
+                peso = input('Peso: ')
+                if not re.match(r'^[1-9][0-9]*[0-9]*\.[0-9]', peso)or float(peso)<=0:
+                    print('Entrada inválida. Tente novamente!')
+                else: 
+                    cadastro.append(peso)
+                    break
+
+            while True:
+                nascimento = input('Data de Nascimento(dd/mm/aaaa): ')
+                if not re.match(r'^(0[0-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\d{4}+$', nascimento):
+                    print('Entrada inválida. Tente novamente!')
+                else: 
+                    cadastro.append(nascimento)
+                    break
+
+            with open('Cadastro.csv','w',encoding='utf-8', newline='') as arquivo_w:
+                linha_nova = csv.writer(arquivo_w)
+                linha_nova.writerow(cadastro)
+                print('\nCADASTRO REALIZADO COM SUCESSO')
+
+
+            #pessoa1 = Pessoa(nome, idade, altura, peso, nascimento)
+            #print(f'\n{pessoa1.eh_maior()}')
+            #print(pessoa1.imc())
+            #print(pessoa1.imc_longo())
+            #pessoa1.apresentar()
+
+        elif entrada == 3:
+            print('\nPROGRAMA FINALIZADO\n')
+            break     
+        else:
+            print('\nENTRADA INVÁLIDA\n')
+    except ValueError:
+        print('\nERRO: ENTRADA INVÁLIDA\n')
+    except FileNotFoundError:
+        print('\nERRO: NÃO HÁ PESSOA CADASTRADA\n')
+
