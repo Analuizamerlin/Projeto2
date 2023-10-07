@@ -1,41 +1,7 @@
+import pandas as pd
 import re
 import csv
-
 cadastro = []
-class Pessoa:
-    def __init__(self,nome, idade, altura, peso, nascimento):
-        self.nome = nome
-        self.idade = idade
-        self.altura = altura
-        self.peso = peso
-        self.nascimento = nascimento
-
-    def eh_maior(self):
-        if int(self.idade) >= 18:
-            return f'{self.nome} é maior de idade!'
-        else:
-            return f'{self.nome} é menor de idade!'
-    
-    def imc(self):
-        self.imc = float(self.peso)/(float(self.altura)**2)
-        return f'imc = {self.imc:.2f}'
-
-    def  imc_longo(self):
-        if self.imc < 18.5:
-            return 'Faixa de peso: Baixo peso.'
-        elif self.imc <= 24.9:
-            return 'Faixa de peso: Normal.'
-        elif self.imc <= 29.9:
-            return 'Faixa de peso: Sobrepeso.'
-        elif self.imc <= 34.9: 
-            return 'Faixa de peso: Obesidade (Grau I).'
-        elif self.imc <= 39.9:
-            return 'Faixa de peso: Obesidade Severa (Grau II).'
-        else:
-            return 'Faixa de peso: Obesidade Mórbida (Grau III).'
-
-    def apresentar(self):
-        print(f'{self.nome} tem {self.idade} anos, {self.altura}m de altura, pesa {self.peso}kg e nasceu em {self.nascimento}.\n')
 
 class menu:
     def acionar():
@@ -52,16 +18,13 @@ while True:
         entrada = int((input(' ')))  
 
         if entrada == 1:
-            with open('Cadastro.csv','r', encoding = 'utf-8', newline='') as arquivo_ler:
-                arquivo_csv = csv.reader(arquivo_ler)
+            cadastro.clear()
+            df = pd.read_csv('Cadastro.csv') 
 
-                for line in arquivo_csv:
-                    if line == []:
-                        print(print('NÃO HÁ PESSOA CADASTRADA'))
-                    else:
-                        print(f'\n{line}\n')            
+            print(df)        
 
-        elif entrada == 2:                       
+        elif entrada == 2:  
+            cadastro.clear()                     
             while True:
                 nome = input('Nome completo: ')
                 if not re.match(r'^[a-zA-Zà-úÀ-Ú\s]+$', nome):
@@ -102,18 +65,12 @@ while True:
                 else: 
                     cadastro.append(nascimento)
                     break
-
-            with open('Cadastro.csv','w',encoding='utf-8', newline='') as arquivo_w:
-                linha_nova = csv.writer(arquivo_w)
-                linha_nova.writerow(cadastro)
-                print('\nCADASTRO REALIZADO COM SUCESSO')
-
-
-            #pessoa1 = Pessoa(nome, idade, altura, peso, nascimento)
-            #print(f'\n{pessoa1.eh_maior()}')
-            #print(pessoa1.imc())
-            #print(pessoa1.imc_longo())
-            #pessoa1.apresentar()
+ 
+            lista = []
+            lista.append(cadastro)
+            df2 = pd.DataFrame(lista,columns=['Nome', 'Idade', 'Altura', 'Peso','Nascimento'])
+            df2 = df2.to_csv('Cadastro.csv', index=False)
+            print('\nCADASTRO REALIZADO COM SUCESSO')
 
         elif entrada == 3:
             print('\nPROGRAMA FINALIZADO\n')
@@ -124,4 +81,3 @@ while True:
         print('\nERRO: ENTRADA INVÁLIDA\n')
     except FileNotFoundError:
         print('\nERRO: NÃO HÁ PESSOA CADASTRADA\n')
-
